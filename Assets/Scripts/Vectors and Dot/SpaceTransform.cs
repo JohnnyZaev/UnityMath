@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
 
 public class SpaceTransform : MonoBehaviour
 {
+    [SerializeField] private Transform objPos;
     [SerializeField] private Vector2 point;
     
     private void OnDrawGizmos()
@@ -29,5 +29,15 @@ public class SpaceTransform : MonoBehaviour
     {
         Vector2 localWorldOffset = transform.right * pt.x + transform.up * pt.y;
         return (Vector2)transform.position + localWorldOffset;
+    }
+
+    private Vector2 WorldToLocal(Vector2 worldPoint)
+    {
+        Vector2 relpoint = worldPoint - (Vector2)objPos.position;
+
+        float x = Vector2.Dot(relpoint, transform.right);
+        float y = Vector2.Dot(relpoint, transform.up);
+
+        return new Vector2(x, y);
     }
 }
